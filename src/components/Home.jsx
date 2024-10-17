@@ -4,50 +4,51 @@ import { Link, useLocation } from "react-router-dom";
 import { ProductContext } from "../Utils/Context";
 import Loading from "./Loading";
 import axios from "../Utils/axios";
-import SearchBox from "./SearchBox";
 
 const Home = () => {
   const [products] = useContext(ProductContext);
-  const {search} = useLocation();
-  const category = decodeURIComponent(search.split('=')[1]);
-  
-  const [filteredProducts, setfilteredProducts] = useState(null);
+  const { search } = useLocation();
+  const category = decodeURIComponent(search.split("=")[1]);
 
-  const getProductscategory = async()=>{
-    try{
-    const {data} = await axios.get(`/products/category/${category}`);
-    setfilteredProducts(data);
-    }catch(error){
+  const [filteredProducts, setFilteredProducts] = useState(null);
+
+  const getProductCategory = async () => {
+    try {
+      const { data } = await axios.get(`/products/category/${category}`);
+      setFilteredProducts(data);
+      console.log(data);
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-  useEffect(()=>{
-    if(!filteredProducts || category == 'undefined') setfilteredProducts(products);
-    if(category != "undefined") getProductscategory();
+  useEffect(() => {
+    if (!filteredProducts || category === "undefined") setFilteredProducts(products);
+    if (category !== "undefined") getProductCategory();
   }, [category, products]);
-
 
   return products ? (
     <>
       <Nav />
-      <div className="w-[85%] p-10 pt-[5%] flex text-black flex-wrap overflow-x-hidden overflow-y-auto">
-      <input type="text" placeholder="Search" className="bg-red-300 top-8 text-black w-4 h-2" />
-
-       {filteredProducts && filteredProducts.map((p,i)=>  (<Link key={p.id}
-          to={`/details/${p.id}`}
-          className="mr-3 mb-3 p-3 card border shadow rounded w-[18%] h-[30vh] flex-col flex justify-center items-center"
-        >
-          <div
-            className="hover:scale-110 mb-3 w-full h-[80%] bg-contain bg-no-repeat bg-center"
-            style={{
-              backgroundImage:
-                `url(${p.image})`,
-            }}
-          ></div>
-          <h1 className="hover:text-blue-300]">{p.title}</h1>
-        </Link> 
-      ))}
+      <div className="w-full md:w-[85%] p-5 md:p-10 pt-[5%] bg-gradient-to-b from-gray-100 to-white text-black flex flex-wrap justify-center md:justify-start overflow-x-hidden overflow-y-auto min-h-screen">
+        {filteredProducts &&
+          filteredProducts.map((p, i) => (
+            <Link
+              key={p.id}
+              to={`/details/${p.id}`}
+              className="transition-all duration-300 transform hover:scale-105 hover:shadow-2xl m-4 p-4 card border border-gray-200 shadow-lg rounded-lg bg-white w-[90%] sm:w-[45%] md:w-[30%] lg:w-[18%] h-[40vh] flex flex-col justify-center items-center"
+            >
+              <div
+                className="transition-transform duration-300 hover:scale-110 mb-3 w-full h-[70%] bg-contain bg-no-repeat bg-center rounded-t-lg"
+                style={{
+                  backgroundImage: `url(${p.image})`,
+                }}
+              ></div>
+              <h1 className="text-center font-semibold text-lg line-clamp-2 overflow-hidden text-ellipsis">
+                {p.title}
+              </h1>
+            </Link>
+          ))}
       </div>
     </>
   ) : (

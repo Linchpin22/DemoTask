@@ -10,7 +10,7 @@ const App = () => {
   const {search , pathname} = useLocation();
   return (
    
-  <div className="h-screen w-screen flex">
+  <div className="h-screen w-screen bg-white flex">
 
     {(pathname != '/' || search.length>0) && (<Link to='/' className="absolute text-blue-300 left-[17%] top-[3%]">
        Home

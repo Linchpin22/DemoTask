@@ -21,23 +21,37 @@ const Details = () => {
   }, []);
 
   return product ? (
-    <div className="w-[70%] justify-between flex items-center h-full m-auto p-[10%]">
+    <div className="w-full md:w-[70%] flex flex-col md:flex-row justify-between pt-8 bg-white text-black m-auto p-5 md:p-[10%]">
       <img
-        className="h-[80%] w-[40%] object-contain"
+        className="h-[40vh] md:h-[80%] w-full md:w-[40%] object-contain mb-5 md:mb-0"
         src={`${product.image}`}
-        alt=""
+        alt="Product"
       />
-      <div className="content w-[50%]">
-        <h1 className="text-4xl">{product.title}</h1>
-        <h3 className="text-zinc-400 my-5">{product.category}</h3>
-        <h2 className="text-red-300 mb-3"> ₹ {product.price}</h2>
-        <p className="mb-[5%]">{product.description}</p>
-        <Link className="py-3 mr-5 px-5 border rounded border-blue-200 text-blue-300">
-          Edit
-        </Link>
-        <Link className="py-3 px-5 border rounded border-red-200 text-red-300">
-          Delete
-        </Link>
+      <div className="content w-full md:w-[50%] flex flex-col items-start">
+        <h1 className="text-2xl md:text-4xl mb-2">{product.title}</h1>
+        <h3 className="text-zinc-600 my-3 md:my-5">
+          {product.category.toUpperCase()}
+        </h3>
+        <h2 className="text-red-500 text-lg md:text-2xl mb-3">
+          ₹ {product.price}
+        </h2>
+        <p className="mb-5 md:mb-[5%] text-sm md:text-base">
+          {product.description}
+        </p>
+        <div className="flex">
+          <Link
+            to={`/edit/${id}`}
+            className="py-2 px-4 mr-5 border rounded border-blue-400 text-blue-500 hover:bg-blue-500 hover:text-white transition-colors"
+          >
+            Edit
+          </Link>
+          <Link
+            to={`/delete/${id}`}
+            className="py-2 px-4 border rounded border-red-400 text-red-500 hover:bg-red-500 hover:text-white transition-colors"
+          >
+            Delete
+          </Link>
+        </div>
       </div>
     </div>
   ) : (
