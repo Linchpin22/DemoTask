@@ -1,68 +1,92 @@
-import React, { useState } from 'react';
-import { ProductContext } from '../Utils/Context';
-import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from "react";
+import { ProductContext } from "../Utils/Context";
+import { Link } from "react-router-dom";
 
 const Nav = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [menuOpen, setMenuOpen] = useState(false); // For handling menu toggle in mobile view
-
+  const [menuOpen, setMenuOpen] = useState(false);
   const [products] = useContext(ProductContext);
-  let distinct_category = products && products.reduce((acc, cv) => [...acc, cv.category], []);
-  distinct_category = [...new Set(distinct_category)];
+
+  let distinct_category = [...new Set(products?.map((p) => p.category))];
 
   return (
-    <nav className="w-full md:w-[15%] bg-zinc-200 text-black drop-shadow-lg flex flex-col items-center md:items-start md:pt-5 md:h-full relative">
-      {/* Hamburger Menu for mobile view */}
-      <div className="w-full flex justify-between items-center p-4 md:hidden">
-        <h1 className="text-xl hidden md:block font-bold">Product Categories</h1>
-        <button onClick={() => setMenuOpen(!menuOpen)} className="text-3xl">
-          {menuOpen ? '✖' : '☰'} {/* Changes icon based on the menu state */}
+    <>
+      {/* Top nav for mobile and tablets */}
+      <div className="lg:hidden w-full flex items-center justify-between bg-indigo-600 p-4 fixed top-0 z-30 shadow-md">
+        <h1 className="text-xl font-bold text-white">A</h1>
+        <button
+          onClick={() => setMenuOpen(true)}
+          className="text-white text-3xl focus:outline-none"
+        >
+          ☰
         </button>
       </div>
 
-      {/* Overlay for closing menu when clicking outside */}
-      {menuOpen && (
-        <div
-          className="fixed inset-0 z-10 bg-black opacity-30"
-          onClick={() => setMenuOpen(false)} // Closes the menu when overlay is clicked
-        />
-      )}
-
-      {/* Sidebar Menu */}
-      <div
-        className={`${
-          menuOpen ? 'block' : 'hidden'
-        } w-[80%] md:w-full bg-zinc-200 md:block md:relative absolute z-20 top-0 left-0 md:translate-x-0 transition-transform transform ${
-          menuOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
-      >
-        <a
-          className="py-3 px-5 border-4 rounded font-semibold text-xl border-zinc-900 text-blue-500 hover:bg-blue-500 hover:text-black hover:border-zinc-200 block text-center md:text-left mb-4 md:mb-0"
-          href="/create"
+      {/* Sidebar for desktop only */}
+      <nav className="hidden lg:flex flex-col w-[15%] text-white shadow-lg p-6 h-screen sticky top-0">
+        <Link
+          to="/create"
+          className="mb-6 font-semibold text-lg hover:text-indigo-600"
         >
-          Add New Product
-        </a>
+          ➕ Add Product
+        </Link>
+        <h2 className="text-xl font-bold mb-4">Category Filter</h2>
+        {distinct_category.map((c, i) => (
+          <Link
+            key={i}
+            to={`/?category=${c}`}
+            className="flex items-center gap-2 mb-3 hover:text-indigo-600"
+          >
+            <span className="w-4 h-4 bg-indigo-500 rounded-full"></span>
+            {c.toUpperCase()}
+          </Link>
+        ))}
+      </nav>
 
-        <hr className="my-3 w-[80%] mx-auto md:mx-0" />
+      {/* Sidebar drawer for mobile & tablets */}
+      {menuOpen && (
+        <div className="fixed inset-0 z-40 flex">
+          {/* Overlay */}
+          <div
+            className="bg-black opacity-40 w-full"
+            onClick={() => setMenuOpen(false)}
+          />
 
-        <h1 className="text-2xl font-bold mb-3 w-[80%] mx-auto md:mx-0">Category Filter</h1>
+          {/* Drawer */}
+          <div className="w-[80%] max-w-xs bg-black text-white shadow-xl p-5 flex flex-col">
+            <div className="flex justify-between items-center mb-5">
+              <h2 className="text-xl font-bold">Categories</h2>
+              <button
+                onClick={() => setMenuOpen(false)}
+                className="text-2xl font-bold"
+              >
+                ✖
+              </button>
+            </div>
 
-        <div className="w-[80%] mx-auto md:mx-0">
-          {distinct_category.map((c, i) => (
             <Link
-              key={i}
-              to={`/?category=${c}`}
-              className="flex items-center font-semibold mb-3"
-              onClick={() => setMenuOpen(false)} // Close menu when a category is clicked
+              to="/create"
+              className="mb-4 font-semibold text-lg text-indigo-600"
+              onClick={() => setMenuOpen(false)}
             >
-              <span className="rounded-full mr-2 w-[15px] h-[15px] bg-blue-500"></span>
-              {c.toUpperCase()}
+              ➕ Add Product
             </Link>
-          ))}
+
+            <h3 className="text-lg text-white font-semibold mb-2">Category Filter</h3>
+            {distinct_category.map((c, i) => (
+              <Link
+                key={i}
+                to={`/?category=${c}`}
+                className="flex items-center gap-2 mb-3 text-white"
+                onClick={() => setMenuOpen(false)}
+              >
+                <span className="w-4 h-4 bg-indigo-500 rounded-full"></span>
+                {c.toUpperCase()}
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
-    </nav>
+      )}
+    </>
   );
 };
 

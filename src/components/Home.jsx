@@ -30,7 +30,7 @@ const Home = () => {
   return products ? (
     <>
       <Nav />
-      <div className="w-full md:w-[85%] p-5 md:p-10 pt-[5%] bg-gradient-to-b from-gray-100 to-white text-black flex flex-wrap justify-center md:justify-start overflow-x-hidden overflow-y-auto min-h-screen">
+      <div className="w-full  p-5 md:p-10 pt-[5%] mt-20 md:mt-0 mb-5  text-black flex flex-wrap justify-center md:justify-start overflow-x-hidden overflow-y-auto min-h-screen">
         {filteredProducts &&
           filteredProducts.map((p, i) => (
             <Link

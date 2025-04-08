@@ -33,62 +33,74 @@ const Create = () => {
       description,
     };
     setProducts([...products, product]);
+
+    // Clear form
+    setTitle("");
+    setImage("");
+    setCategory("");
+    setPrice("");
+    setDescription("");
   };
 
   return (
-    <form
-      onSubmit={AddProductHandler}
-      className="flex flex-col bg-white text-black items-center p-5 md:p-[5%] w-full h-screen"
-    >
-      <h1 className="w-full md:w-1/2 mb-5 text-2xl md:text-3xl text-center">
-        Add New Product
-      </h1>
-      <input
-        type="url"
-        placeholder="Product Image Link"
-        className="text-lg md:text-2xl bg-zinc-100 rounded p-3 w-full md:w-1/2 mb-3"
-        onChange={(e) => setImage(e.target.value)}
-        value={image}
-      />
-      <input
-        type="text"
-        placeholder="Title"
-        className="text-lg md:text-2xl bg-zinc-100 rounded p-3 w-full md:w-1/2 mb-3"
-        onChange={(e) => setTitle(e.target.value)}
-        value={title}
-      />
-      <div className="w-full md:w-1/2 flex flex-col md:flex-row justify-between">
+    <div className="min-h-screen w-[100%] flex items-center justify-center p-4">
+      <form
+        onSubmit={AddProductHandler}
+        className="bg-white w-full max-w-xl p-6 md:p-10 rounded-xl shadow-lg space-y-5"
+      >
+        <h2 className="text-2xl md:text-3xl font-bold text-center text-indigo-600">
+          Add New Product
+        </h2>
+
+        <input
+          type="url"
+          placeholder="Product Image URL"
+          className="w-full px-4 py-3 bg-gray-100 rounded-md focus:ring-2 focus:ring-indigo-400 text-lg"
+          value={image}
+          onChange={(e) => setImage(e.target.value)}
+        />
+
         <input
           type="text"
-          placeholder="Category"
-          className="text-lg md:text-2xl bg-zinc-100 rounded p-3 w-full md:w-[48%] mb-3 md:mb-0"
-          onChange={(e) => setCategory(e.target.value)}
-          value={category}
+          placeholder="Title"
+          className="w-full px-4 py-3 bg-gray-100 rounded-md focus:ring-2 focus:ring-indigo-400 text-lg"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
-        <input
-          type="number"
-          placeholder="Price"
-          className="text-lg md:text-2xl bg-zinc-100 rounded p-3 w-full md:w-[48%] mb-3 md:mb-0"
-          onChange={(e) => setPrice(e.target.value)}
-          value={price}
-        />
-      </div>
-      <textarea
-        placeholder="Enter Product details here!!!"
-        onChange={(e) => setDescription(e.target.value)}
-        value={description}
-        className="text-lg md:text-2xl bg-zinc-100 rounded p-3 w-full md:w-1/2 mb-3"
-        rows="5"
-      ></textarea>
-      <div className="w-full md:w-1/2">
+
+        <div className="flex flex-col md:flex-row gap-4">
+          <input
+            type="text"
+            placeholder="Category"
+            className="w-full px-4 py-3 bg-gray-100 rounded-md focus:ring-2 focus:ring-indigo-400 text-lg"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          />
+          <input
+            type="number"
+            placeholder="Price"
+            className="w-full px-4 py-3 bg-gray-100 rounded-md focus:ring-2 focus:ring-indigo-400 text-lg"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+        </div>
+
+        <textarea
+          rows="4"
+          placeholder="Enter product details here..."
+          className="w-full px-4 py-3 bg-gray-100 rounded-md focus:ring-2 focus:ring-indigo-400 text-lg resize-none"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        ></textarea>
+
         <button
           type="submit"
-          className="py-3 px-5 border rounded border-zinc-300 text-zinc-500 w-full"
+          className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-lg transition duration-300"
         >
-          Add New Product
+          Add Product
         </button>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };
 

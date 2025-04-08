@@ -21,7 +21,7 @@ const Details = () => {
   }, []);
 
   return product ? (
-    <div className="w-full md:w-[70%] flex flex-col md:flex-row justify-between pt-8 bg-white text-black m-auto p-5 md:p-[10%]">
+    <div className="w-full md:w-[70%] flex flex-col md:flex-row justify-between pt-8  m-auto p-5 md:p-[10%]">
       <img
         className="h-[40vh] md:h-[80%] w-full md:w-[40%] object-contain mb-5 md:mb-0"
         src={`${product.image}`}
